@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Jul 18 13:01:02 2020
-
-@author: OHyic
+Github: https://github.com/young1205/Bing-Image-Scrapper
 """
 #import selenium drivers
 from selenium import webdriver
@@ -63,8 +61,9 @@ class BingImageScraper():
         self.number_of_images = number_of_images
         self.webdriver_path = webdriver_path
         self.image_path = image_path
-        # self.url = "https://www.Bing.com/search?q=%s&source=lnms&tbm=isch&sa=X&ved=2ahUKEwie44_AnqLpAhUhBWMBHUFGD90Q_AUoAXoECBUQAw&biw=1920&bih=947"%(search_key)
-        self.url = "https://www.bing.com/images/search?q="+self.search_key
+
+        # Only search for small images 
+        self.url = "https://www.bing.com/images/search?q="+self.search_key+"=+filterui%3aimagesize-small&first=1"
         self.headless=headless
         self.min_resolution = min_resolution
         self.max_resolution = max_resolution
@@ -87,23 +86,21 @@ class BingImageScraper():
         class_name = "iusc"
         images = self.driver.find_elements_by_class_name(class_name)
         
-        print("find")
         for image in images:
             if count < self.number_of_images:
                 #only download images that starts with http
                 json_data = image.get_attribute('m')
                 image_data = json.loads(json_data)
                 src_link = image_data["murl"]
-                print("src_link",src_link)
+                print("[INFO] found src_link: ",src_link)
                 if not isinstance(src_link, type(None)):
-                    print ("hjgj" )
                     if ("http:/" in src_link ) and ((".png" in src_link ) or (".jpg" in src_link )): 
                         image_urls.append(src_link)
                         count = count + 1
             else:
                 break 
 
-        print(image_urls)
+        print("[INFO] List of image urls:", image_urls)
         return image_urls
 
     def save_images(self,image_urls):

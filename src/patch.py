@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun May 23 14:44:43 2021
-
-@author: Yicong
+Github: https://github.com/young1205/Bing-Image-Scrapper
 """
 #!/usr/bin/env python3
 from selenium import webdriver
